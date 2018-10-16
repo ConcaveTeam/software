@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>concaveteam</name>
+  <version>0.0.0</version>
+  <description>The concaveteam package</description>
+  <maintainer email="concavemail@gmail.com">Kawin Nikomborirak</maintainer>
+
+  <license>MIT</license>
+  <author email="concavemail@gmail.com">Kawin Nikomborirak</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>pcl_ros</depend>
+  <depend>roscpp</depend>
+  <depend>rosserial</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+
+</package>
