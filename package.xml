@@ -12,9 +12,11 @@
 
   <depend>pcl_ros</depend>
   <depend>roscpp</depend>
-  <depend>rosserial</depend>
   <depend>sensor_msgs</depend>
   <depend>tf2</depend>
   <depend>tf2_ros</depend>
+  <depend>image_transport</depend>
+
+  <exec_depend>rosserial</exec_depend>
 
 </package>
