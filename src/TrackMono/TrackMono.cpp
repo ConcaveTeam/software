@@ -5,7 +5,7 @@
 std::vector<std::vector<cv::Point>> filter_contours(std::vector<std::vector<cv::Point>> contours, double min_area)
 {
   std::sort(contours.begin(), contours.end(),
-     [](auto a, auto b) {return cv::contourArea(cv::Mat(a)) > cv::contourArea(cv::Mat(b));});
+            [](auto a, auto b) {return cv::contourArea(cv::Mat(a)) > cv::contourArea(cv::Mat(b));});
 
   std::vector<std::vector<cv::Point>> filtered;
   copy_if(contours.begin(), contours.end(), back_inserter(filtered),
