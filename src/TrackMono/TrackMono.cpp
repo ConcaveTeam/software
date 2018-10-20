@@ -2,6 +2,18 @@
 #include <sensor_msgs/image_encodings.h>
 #include <opencv2/core/core.hpp>
 
+std::vector<std::vector<cv::Point>> filter_contours(std::vector<std::vector<cv::Point>> contours, double min_area)
+{
+  std::sort(contours.begin(), contours.end(),
+     [](auto a, auto b) {return cv::contourArea(cv::Mat(a)) > cv::contourArea(cv::Mat(b));});
+
+  std::vector<std::vector<cv::Point>> filtered;
+  copy_if(contours.begin(), contours.end(), back_inserter(filtered),
+          [min_area](auto x) {return cv::contourArea(cv::Mat(x)) > min_area;});
+
+  return filtered;
+}
+
 TrackMono::TrackMono()
   : it(nh)
   , sub(it.subscribe("/left/image_raw", 1, &TrackMono::callback, this))
@@ -13,6 +25,8 @@ TrackMono::TrackMono()
 
 void TrackMono::callback(const sensor_msgs::ImageConstPtr& msg)
 {
+
+  // Convert the image to a cv::Mat
   try
     {
       cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
@@ -28,38 +42,69 @@ void TrackMono::callback(const sensor_msgs::ImageConstPtr& msg)
   cv::Mat img;
   cv::cvtColor(color, img, CV_BGR2GRAY);
 
+  // Handle the case on initialization when a previous frame has not
+  // been created.
   if (img0.empty())
     {
       img0 = img;
       return;
     }
 
-  cv::Mat diff;
-  cv::absdiff(img0, img, diff);
+  // Get the delta between the last and current frame.
+  cv::Mat delta;
+  cv::absdiff(img0, img, delta);
 
   cv::Mat thresh;
-  cv::threshold(diff, thresh, 25, 255, cv::THRESH_BINARY);
+  cv::threshold(delta, thresh, 25, 255, cv::THRESH_BINARY);
 
+  // Get the best contours from the delta image.
   std::vector<std::vector<cv::Point>> contours;
   cv::findContours(thresh, contours, CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
 
-  cv::Mat contourimg;
-  color.copyTo(contourimg);
-  cv::drawContours(contourimg, contours, 0, cv::Scalar(0, 0, 255));
+  contours = filter_contours(contours, 255);
 
-  std::sort (contours.begin(), contours.end(),
-     [](auto a, auto b) {return cv::contourArea(cv::Mat(a)) > cv::contourArea(cv::Mat(b));});
+  // Find the centers of the moving objects
+  std::vector<cv::Point> centers;
+  std::vector<double> radii;
 
-  for (auto i = 0; i < contours.size(); i++)
+  cv::Point2f center;
+  float radius;
+
+  for (size_t i = 0; i < contours.size(); i++)
     {
-      cv::drawContours(contourimg, contours, i, cv::Scalar(0, 0, 255));
+      cv::minEnclosingCircle(contours[i], center, radius);
+      centers.push_back(center);
+      radii.push_back(radius);
     }
 
+  // Draw visual indicators on a new image to be published.
+  cv::Mat contourimg;
+
+  color.copyTo(contourimg);
+
+  for (size_t i = 0; i < contours.size(); i++)
+    {
+      cv::drawContours(contourimg, contours, i, cv::Scalar(255, 0, 0));
+      circle(contourimg, centers[i], radii[i], cv::Scalar(0, 0, 255));
+    }
+
+  if (!centers.empty())
+    {
+      pub_msg.point.x = centers[0].x;
+      pub_msg.point.y = centers[0].y;
+    }
+
+  // Finish this iteration by updating the previous image and
+  // publishing the data.
   img0 = img;
+
   sensor_msgs::ImagePtr published_image = cv_bridge::CvImage(std_msgs::Header(), "bgr8", contourimg).toImageMsg();
   published_image->header.frame_id="left_cam";
   pub_img.publish(published_image);
+
+  pub.publish(pub_msg);
 }
+
 
 int main(int argc, char** argv)
 {
