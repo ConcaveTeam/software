@@ -5,20 +5,22 @@ find_package(catkin REQUIRED COMPONENTS
   pcl_ros
   roscpp
   sensor_msgs
-  tf2
   tf2_ros
   image_transport
   cv_bridge
 )
 
 find_package(OpenCV 3 REQUIRED)
+find_package(PCL REQUIRED)
 
 catkin_package()
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  ${OpenCV_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
-add_executable(image_pub src/image_pub/image_pub.cpp)
-target_link_libraries(image_pub ${catkin_LIBRARIES} ${OpenCV_LIBS})
+add_definitions(${PCL_DEFINITIONS})
+
+add_executable(track_mono src/TrackMono/TrackMono.cpp)
+target_link_libraries(track_mono ${catkin_LIBRARIES} ${OpenCV_LIbs})
