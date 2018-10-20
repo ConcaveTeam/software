@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find concaveteam)/launch/camera.launch"/>
+  <node pkg="concaveteam" type="track_mono" name="track_mono"/>
+</launch>

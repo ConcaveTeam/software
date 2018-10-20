@@ -1,0 +1,10 @@
+<launch>
+  <node pkg="tf2_ros" type="static_transform_publisher" name="left_cam_broadcaster"
+        args="-.05 0 0 0 0 0 /base_link /left_cam"/>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="right_cam_broadcaster"
+        args=".05 0 0 0 0 0 /base_link /left_cam"/>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="turret_broadcaster"
+        args="0 0 .1 0 0 0 /base_link /left_cam"/>
+</launch>

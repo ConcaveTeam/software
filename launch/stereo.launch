@@ -1,0 +1,18 @@
+<launch>
+  <include file="$(find concaveteam)/launch/frames.launch"/>
+  <node pkg="usb_cam" type="usb_cam_node" name="left">
+    <param name="~camera_name" value="left"/>
+    <param name="~camera_frame_id" value="left_cam"/>
+    <param name="~pixel_format" value="mjpeg"/>
+    <param name="~video_device" value="/dev/video0"/>
+  </node>
+
+  <!-- <node pkg="usb_cam" type="usb_cam_node" name="right"> -->
+  <!--   <param name="~camera_name" value="right"/> -->
+  <!--   <param name="~camera_frame_id" value="right_cam"/> -->
+  <!--   <param name="~pixel_format" value="mjpeg"/> -->
+  <!--   <param name="~video_device" value="/dev/video2"/> -->
+  <!-- </node> -->
+
+  <!-- <node pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc"/> -->
+</launch>
