@@ -26,7 +26,7 @@ TrackMono::TrackMono()
 void TrackMono::callback(const sensor_msgs::ImageConstPtr& msg)
 {
 
-  // Convert the image to a cv::Mat
+  // Convert the image message to a cv::Mat
   try
     {
       cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
