@@ -8,19 +8,37 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   image_transport
   cv_bridge
+  message_generation
 )
 
 find_package(OpenCV 3 REQUIRED)
 find_package(PCL REQUIRED)
 
-catkin_package()
+add_message_files(
+  FILES
+  Spherical.msg
+  )
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  )
+
+catkin_package(
+  CATKIN_DEPENDS
+  roscpp
+  message_runtime
+  )
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
-)
+  )
 
 add_definitions(${PCL_DEFINITIONS})
 
 add_executable(track_mono src/TrackMono/TrackMono.cpp)
+add_executable(point2d_to_spherical src/Point2DToSpherical/Point2DToSpherical.cpp)
+
 target_link_libraries(track_mono ${catkin_LIBRARIES} ${OpenCV_LIbs})
+target_link_libraries(point2d_to_spherical ${catkin_LIBRARIES})
