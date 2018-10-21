@@ -17,6 +17,7 @@ RUN bash -c \
     'apt-get update \
     && apt-get upgrade -y \
     && cd /home/$DOCKER_USER/catkin_ws \
+    && apt-get install ros-$ROS_DISTRO-rosserial-arduino -y \
     && rosdep update \
     && source /opt/ros/$ROS_DISTRO/setup.bash \
     && rosdep install -iy --from-paths src \
