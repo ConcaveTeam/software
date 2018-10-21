@@ -8,7 +8,7 @@ ARG PROJECT=concaveteam
 MAINTAINER Kawin Nikomborirak concavemail@gmail.com
 
 RUN bash -c \
-    'useradd -lmG video $DOCKER_USER \
+    'useradd -lmG sudo $DOCKER_USER \
     && mkdir -p /home/$DOCKER_USER/catkin_ws/src/$PROJECT'
 
 COPY . /home/$DOCKER_USER/catkin_ws/src/$PROJECT/
