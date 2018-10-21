@@ -23,8 +23,8 @@ void Point2DToSpherical::pointCallback(const geometry_msgs::PointStamped::ConstP
 {
   if (width == 0 || height == 0) return;
   const double virtual_depth = width / 2 / tan(cam_angular_width / 2);
-  aim.azimuth = atan((msg->point.x - width / 2) / virtual_depth);
-  aim.polar = M_PI / 2 - atan((msg->point.y - height / 2) / virtual_depth);
+  aim.azimuth = atan((msg->point.x - width / 2) / virtual_depth) * 180 / M_PI;
+  aim.polar = (M_PI / 2 - atan((msg->point.y - height / 2) / virtual_depth)) * 180 / M_PI;
   pub.publish(aim);
 }
 
