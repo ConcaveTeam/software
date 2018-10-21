@@ -2,4 +2,5 @@
   <include file="$(find concaveteam)/launch/frames.launch"/>
   <include file="$(find concaveteam)/launch/camera.launch"/>
   <node pkg="concaveteam" type="track_mono" name="track_mono"/>
+  <node pkg="concaveteam" type="point2d_to_spherical" name="pont2d_to_spherical"/>
 </launch>
