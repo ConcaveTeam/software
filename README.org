@@ -1,5 +1,6 @@
 #+title: Software
-[![Build Status](https://travis-ci.com/ConcaveTeam/software.svg?branch=master)](https://travis-ci.com/ConcaveTeam/software)
+
+[[https://travis-ci.com/ConcaveTeam/software][https://travis-ci.com/ConcaveTeam/software.svg?branch=master]]
 
 * Installation
 - Install [[http://wiki.ros.org/][ROS]]
