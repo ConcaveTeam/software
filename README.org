@@ -1,1 +1,22 @@
-* Software
+#+title: Software
+[![Build Status](https://travis-ci.com/ConcaveTeam/software.svg?branch=master)](https://travis-ci.com/ConcaveTeam/software)
+
+* Installation
+- Install [[http://wiki.ros.org/][ROS]]
+- =cd <your_catkin_ws>/src>=
+- Clone this project: =git clone https://github.com/olinrobotics/gravl.git=
+- Navigate back to the catkin works pace root: =cd ..=
+- Install dependencies: =rosdep install -iry --from-paths src=
+- Build the platform: =catkin_make=
+- Done.
+  Now you can run one of the modes in the section below.
+
+* Modes of Operation
+
+** Monocular Motion Tracking
+- Command :: =roslaunch concaveteam trackmono.launch=
+- View annotated image :: =rosrun rqt_image_view rqt_image_view trackmono=
+- View published point :: =rosrun rviz rviz=, hit =Add=,  select =PointStamped=, expand the triangle under the new PointStamped heading on the left, and select =/target=..
+     You will need to zoom out, point the camera downwards, and increase the radius of the point to around 100 for an easy view.
+
+This publishes an annotated image with moving objects circled in =/monotrack= as well as the most significant point in image coordinates called =target=.
