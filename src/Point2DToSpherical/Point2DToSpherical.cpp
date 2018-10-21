@@ -5,7 +5,7 @@
 
 Point2DToSpherical::Point2DToSpherical()
   : pub(nh.advertise<concaveteam::Spherical>("aim", 1))
-  , camera_info_sub(nh.subscribe("/left_cam/camera_info", 1, &Point2DToSpherical::cameraInfoCallback, this))
+  , camera_info_sub(nh.subscribe("/left/camera_info", 1, &Point2DToSpherical::cameraInfoCallback, this))
   , point_sub(nh.subscribe("/target", 1, &Point2DToSpherical::pointCallback, this))
   , height(0)
   , width(0)
@@ -23,8 +23,8 @@ void Point2DToSpherical::pointCallback(const geometry_msgs::PointStamped::ConstP
 {
   if (width == 0 || height == 0) return;
   const double virtual_depth = width / 2 / tan(cam_angular_width / 2);
-  aim.azimuth = atan((msg->point.x - width / 2) / virtual_depth) * 180 / M_PI;
-  aim.polar = (M_PI / 2 - atan((msg->point.y - height / 2) / virtual_depth)) * 180 / M_PI;
+  aim.azimuth = atan((msg->point.y - width / 2) / virtual_depth) * 180 / M_PI;
+  aim.polar = (M_PI / 2 - atan((height / 2 - msg->point.z) / virtual_depth)) * 180 / M_PI;
   pub.publish(aim);
 }
 
