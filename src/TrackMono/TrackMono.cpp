@@ -90,8 +90,9 @@ void TrackMono::callback(const sensor_msgs::ImageConstPtr& msg)
 
   if (!centers.empty())
     {
-      pub_msg.point.x = centers[0].x;
-      pub_msg.point.y = centers[0].y;
+      pub_msg.point.y = centers[0].x;
+      pub_msg.point.z = centers[0].y;
+      pub_msg.header.stamp = ros::Time::now();
     }
 
   // Finish this iteration by updating the previous image and
