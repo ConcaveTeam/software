@@ -2,5 +2,4 @@
   <include file="$(find concaveteam)/launch/frames.launch"/>
   <include file="$(find concaveteam)/launch/camera.launch"/>
   <node pkg="concaveteam" type="track_mono" name="track_mono"/>
-  <node pkg="rqt_image_view" type="rqt_image_view" args="/monotrack" name="image_view"/>
 </launch>
