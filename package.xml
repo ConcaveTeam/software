@@ -18,5 +18,5 @@
   <depend>cv_bridge</depend>
 
   <exec_depend>rosserial</exec_depend>
-
+  <exec_depend>usb_cam</exec_depend>
 </package>
