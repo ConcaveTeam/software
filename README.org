@@ -5,7 +5,7 @@
 * Installation
 - Install [[http://wiki.ros.org/][ROS]]
 - =cd <your_catkin_ws>/src>=
-- Clone this project: =git clone https://github.com/olinrobotics/gravl.git=
+- Clone this project: =git clone https://github.com/ConcaveTeam/software.git=
 - Navigate back to the catkin works pace root: =cd ..=
 - Install dependencies: =rosdep install -iry --from-paths src=
 - Build the platform: =catkin_make=
