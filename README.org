@@ -18,6 +18,6 @@
 - Command :: =roslaunch concaveteam trackmono.launch=
 - View annotated image :: =rosrun rqt_image_view rqt_image_view trackmono=
 - View published point :: =rosrun rviz rviz=, hit =Add=,  select =PointStamped=, expand the triangle under the new PointStamped heading on the left, and select =/target=..
-     You will need to zoom out, point the camera downwards, and increase the radius of the point to around 100 for an easy view.
+     You will need to zoom out, point the camera along the axis, and increase the radius of the point to around 100 for an easy view.
 
-This publishes an annotated image with moving objects circled in =/monotrack= as well as the most significant point in image coordinates called =target=.
+This publishes an annotated image with moving objects circled in =/monotrack=, the most significant point in image coordinates called =target=, and the spherical angles denoting the location of the coordinates in degrees in =aim=
