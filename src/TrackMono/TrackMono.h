@@ -5,9 +5,9 @@
  */
 #pragma once
 
-#include "geometry_msgs/PointStamped.h"
-#include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
+#include <geometry_msgs/PointStamped.h>
+#include <cv_bridge/cv_bridge.h>
 
 /*
  * Filter the contours and sort them from best to worst.
