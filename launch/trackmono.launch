@@ -1,8 +1,12 @@
 <launch>
   <include file="$(find concaveteam)/launch/frames.launch"/>
   <include file="$(find concaveteam)/launch/camera.launch"/>
-  <node pkg="concaveteam" type="track_mono" name="track_mono"/>
+  <node pkg="concaveteam" type="track_mono" name="track_mono">
+    <remap from="image_rect_color" to="/left/image_rect_color"/>
+  </node>
   <node pkg="concaveteam" type="point2d_to_spherical" name="point2d_to_spherical">
+    <!-- <remap from="camera_info" to="/left/camera_info"/> -->
+    <!-- <remap from="target" to="/target"/> -->
     <param name="~angular_width" value="1.176"/>
   </node>
   <node pkg="rosserial_python" type="serial_node.py" name="serial"  args="/dev/ttyACM0"/>

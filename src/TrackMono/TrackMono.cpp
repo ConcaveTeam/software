@@ -16,8 +16,8 @@ std::vector<std::vector<cv::Point>> filter_contours(std::vector<std::vector<cv::
 
 TrackMono::TrackMono()
   : it(nh)
-  , sub(it.subscribe("/left/image_raw", 1, &TrackMono::callback, this))
-  , pub_img(it.advertise("/monotrack", 1))
+  , sub(it.subscribe("image_rect_color", 1, &TrackMono::callback, this))
+  , pub_img(it.advertise("monotrack", 1))
   , pub(nh.advertise<geometry_msgs::PointStamped>("target", 1))
 {
   pub_msg.header.frame_id = "left_cam";
