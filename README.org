@@ -28,3 +28,5 @@ This publishes an annotated image with moving objects circled in =/monotrack=, t
 - Hardware :: Mount the cameras. Plug in , in order, the left camera, and then the right camera.
 - Launch the nodes :: =roslaunch concaveteam stereo.launch=
 - View disparity map :: =rosrun image_view disparity_view image:=stereo/disparity==
+
+This publishes a disparity map from our camera setup, as well as a point cloud in =/stereo/points2= which can be viewed in RVIZ.
