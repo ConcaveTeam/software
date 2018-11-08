@@ -21,3 +21,10 @@
      You will need to zoom out, point the camera along the axis, and increase the radius of the point to around 100 for an easy view.
 
 This publishes an annotated image with moving objects circled in =/monotrack=, the most significant point in image coordinates called =target=, and the spherical angles denoting the location of the coordinates in degrees in =aim=
+
+* Stereo Vision
+
+** Launch stereo setup
+- Hardware :: Mount the cameras. Plug in , in order, the left camera, and then the right camera.
+- Launch the nodes :: =roslaunch concaveteam stereo.launch=
+- View disparity map :: =rosrun image_view disparity_view image:=stereo/disparity==
