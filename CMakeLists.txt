@@ -9,7 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
   cv_bridge
   message_generation
-)
+  )
 
 find_package(OpenCV 3 REQUIRED)
 find_package(PCL REQUIRED)
@@ -17,6 +17,11 @@ find_package(PCL REQUIRED)
 add_message_files(
   FILES
   Spherical.msg
+  )
+
+add_service_files(
+  FILES
+  Trigger.srv
   )
 
 generate_messages(
