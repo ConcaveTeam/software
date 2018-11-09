@@ -1,4 +1,4 @@
-/*
+/**
  * This file publishes to a video stream on /left_cam/image_raw and
  * publishes a processed image and a point denoting where the moving
  * object is in image coordinates.
@@ -9,7 +9,7 @@
 #include <geometry_msgs/PointStamped.h>
 #include <cv_bridge/cv_bridge.h>
 
-/*
+/**
  * Filter the contours and sort them from best to worst.
  * The motion tracker calculates raw deltas between a pair of
  * consecutive frames and uses contours from these deltas and uses
@@ -23,7 +23,7 @@
  */
 std::vector<std::vector<cv::Point>> filter_contours(std::vector<std::vector<cv::Point>> contours, double min_area);
 
-/*
+/**
  * A class to keep track of subscribing and publishing data, as well
  * as data such as the previous frame.
  */
