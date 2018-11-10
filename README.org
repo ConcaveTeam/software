@@ -17,9 +17,9 @@ For a docker image instead, see the next section.
 * Alternative Install: Docker Installation
 To get the environment in docker, simply run
 
-```
-docker run -it --rm --privileged --net=host concavegit/concaveturret
-```
+#+BEGIN_SRC sh
+  docker run -it --rm --privileged --net=host concavegit/concaveturret
+#+END_SRC
 
 and run a mode of operation described below in the prompt.
 
