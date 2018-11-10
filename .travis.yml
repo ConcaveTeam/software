@@ -4,4 +4,10 @@ services:
   - docker
 
 script:
-  docker build -t concaveturret .
+  docker build -t $DOCKER_USERNAME/concaveturret .
+
+deploy:
+  provider: script
+  script: ./docker_push.sh
+  on:
+    branch: master
