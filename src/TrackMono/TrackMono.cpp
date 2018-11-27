@@ -35,15 +35,15 @@ void TrackMono::callback_left(const sensor_msgs::ImageConstPtr& msg)
 
   // Handle the case on initialization when a previous frame has not
   // been created.
-  if (img0.empty())
+  if (img0_left.empty())
     {
-      img0 = img;
+      img0_left = img;
       return;
     }
 
   // Get the delta between the last and current frame.
   cv::Mat delta;
-  cv::absdiff(img0, img, delta);
+  cv::absdiff(img0_left, img, delta);
 
   cv::Mat thresh;
   cv::threshold(delta, thresh, 25, 255, cv::THRESH_BINARY);
@@ -88,7 +88,7 @@ void TrackMono::callback_left(const sensor_msgs::ImageConstPtr& msg)
 
   // Finish this iteration by updating the previous image and
   // publishing the data.
-  img0 = img;
+  img0_left = img;
 
   sensor_msgs::ImagePtr published_image = cv_bridge::CvImage(std_msgs::Header(), "bgr8", contourimg).toImageMsg();
 }
@@ -122,15 +122,15 @@ void TrackMono::callback_right(const sensor_msgs::ImageConstPtr& msg)
 
     // Handle the case on initialization when a previous frame has not
     // been created.
-    if (img0.empty())
+    if (img0_right.empty())
     {
-        img0 = img;
+        img0_right = img;
         return;
     }
 
     // Get the delta between the last and current frame.
     cv::Mat delta;
-    cv::absdiff(img0, img, delta);
+    cv::absdiff(img0_right, img, delta);
 
     cv::Mat thresh;
     cv::threshold(delta, thresh, 25, 255, cv::THRESH_BINARY);
@@ -168,14 +168,14 @@ void TrackMono::callback_right(const sensor_msgs::ImageConstPtr& msg)
 
     if (!centers.empty())
     {
-        pub_msg.point.y = centers[0].x;
-        pub_msg.point.z = centers[0].y;
-        pub_msg.header.stamp = ros::Time::now();
+        right_saved.point.y = centers[0].x;
+        right_saved.point.z = centers[0].y;
+        right_saved.header.stamp = ros::Time::now();
     }
 
     // Finish this iteration by updating the previous image and
     // publishing the data.
-    img0 = img;
+    img0_right = img;
 
     sensor_msgs::ImagePtr published_image = cv_bridge::CvImage(std_msgs::Header(), "bgr8", contourimg).toImageMsg();
     published_image->header.frame_id="left_cam";
@@ -186,7 +186,23 @@ void TrackMono::callback_right(const sensor_msgs::ImageConstPtr& msg)
 
 int main(int argc, char** argv)
 {
+  dist1=0.1//distance between cameras
   ros::init(argc, argv, "track_mono");
   TrackMono track_mono;
   ros::spin();
+  virtual_depth=831;
+  cam_angular_width = 1.0472;
+
+
+  right_saved.azimuth = atan((width / 2 - right_saved.point.y) / virtual_depth) * 180 / M_PI;
+
+  right_saved.polar = (M_PI / 2 - atan((height / 2 - right_saved.point.z) / virtual_depth)) * 180 / M_PI;
+  left_saved.azimuth = atan((width / 2 - left_saved.point.y) / virtual_depth) * 180 / M_PI;
+  left_saved.polar = (M_PI / 2 - atan((height / 2 - left_saved.point.z) / virtual_depth)) * 180 / M_PI;
+  angle3= (M_PI)-(left_saved.azimuth+right_saved.azimuth);
+  distance_from_left= (dist1*sin(left_saved.azimuth))/sin(angle3);
+
+
+
+
 }
