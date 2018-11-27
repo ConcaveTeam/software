@@ -2,7 +2,6 @@
   <include file="$(find concaveteam)/launch/frames.launch"/>
   <include file="$(find concaveteam)/launch/camera.launch"/>
   <node pkg="concaveteam" type="track_mono" name="track_mono">
-    <remap from="image_rect_color" to="/left/image_rect_color"/>
   </node>
   <node pkg="concaveteam" type="point2d_to_spherical" name="point2d_to_spherical">
     <!-- <remap from="camera_info" to="/left/camera_info"/> -->

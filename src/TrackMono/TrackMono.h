@@ -1,3 +1,4 @@
+
 /**
  * This file publishes to a video stream on /left_cam/image_raw and
  * publishes a processed image and a point denoting where the moving
@@ -33,19 +34,26 @@ public:
   TrackMono();
 
 private:
-  void callback(const sensor_msgs::ImageConstPtr& msg);
+    void callback_right(const sensor_msgs::ImageConstPtr& msg);
+
+
+    void callback_left(const sensor_msgs::ImageConstPtr& msg);
 
   ros::NodeHandle nh;
   image_transport::ImageTransport it;
   cv_bridge::CvImageConstPtr cv_ptr;
 
-  image_transport::Subscriber sub;
+
+  image_transport::Subscriber sub_left;
+  image_transport::Subscriber sub_right;
   image_transport::Publisher pub_img;
   ros::Publisher pub;
+
 
   // The previous image
   cv::Mat img0;
 
   // The location of the best moving object in image coordinates.
   geometry_msgs::PointStamped pub_msg;
+  geometry_msgs::PointStamped left_saved;
 };
