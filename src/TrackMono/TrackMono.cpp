@@ -54,8 +54,11 @@ void TrackMono::callback(const sensor_msgs::ImageConstPtr& msg)
   cv::Mat delta;
   cv::absdiff(img0, img, delta);
 
+  cv::Mat blurred;
+  cv::blur(delta, blurred, cv::Size(7, 7));
+
   cv::Mat thresh;
-  cv::threshold(delta, thresh, 25, 255, cv::THRESH_BINARY);
+  cv::threshold(blurred, thresh, 5, 255, cv::THRESH_BINARY);
 
   // Get the best contours from the delta image.
   std::vector<std::vector<cv::Point>> contours;
