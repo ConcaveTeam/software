@@ -19,7 +19,7 @@ private:
   ros::Subscriber camera_info_sub;
   ros::Subscriber point_sub;
 
-  double cam_angular_width;
+  double focal_length;
   concaveteam::Spherical aim;
   unsigned int height;
   unsigned int width;
