@@ -18,8 +18,8 @@ class FindTarget:
         self.u = np.array([])
 
     def targetCb(self, data):
-        azim = data.azimuth * np.pi / 180
-        polar = data.polar * np.pi / 180
+        azim = data.azimuth
+        polar = data.polar
 
         # Compute unit vector for direction of target
         self.u = np.array(
@@ -33,17 +33,22 @@ class FindTarget:
             return
 
         # Project the points onto the ray
-        proj = np.dot(points, self.u) * self.u
+        proj = self.u * np.dot(points, self.u)[:, np.newaxis]
+        # print(proj.shape)
 
         # Calculate the perpendicular component
         perp = points - proj
-        dists = np.dot(points, perp)
+        perp = perp / np.linalg.norm(perp, axis=1)[:, np.newaxis]
+        dists = (points * perp).sum(1)
 
         # Publish the closest point
         closest = points[dists.argmin()]
+        # For some reason y is inverted
+        closest[:, 1] = -closest[:, 1]
         point = Point()
         point.x, point.y, point.z = closest
         self.pointPub.publish(point)
+        print(closest)
 
 
 if __name__ == '__main__':

@@ -5,7 +5,7 @@
     <remap from="image_rect_color" to="/stereo/left/image_rect_color"/>
   </node>
   <node pkg="concaveteam" type="point2d_to_spherical" name="point2d_to_spherical">
-    <remap from="/left/camera_info" to="stereo/left/camera_info"/>
+    <remap from="/left/camera_info" to="/stereo/left/camera_info"/>
     <remap from="target" to="/target"/>
     <param name="~focal_length" value="832"/>
   </node>
