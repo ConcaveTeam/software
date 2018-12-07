@@ -23,8 +23,8 @@ void Point2DToSpherical::cameraInfoCallback(const sensor_msgs::CameraInfo::Const
 void Point2DToSpherical::pointCallback(const geometry_msgs::PointStamped::ConstPtr& msg)
 {
   if (width == 0 || height == 0) return;
-  aim.azimuth = atan((width / 2 - msg->point.y) / focal_length);
-  aim.polar = (M_PI / 2 - atan((height / 2 - msg->point.z) / focal_length));
+  aim.azimuth = atan((width / 2 - msg->point.y) / focal_length) * 180 / M_PI;
+  aim.polar = (M_PI / 2 - atan((height / 2 - msg->point.z) / focal_length)) * 180 / M_PI;
   pub.publish(aim);
 }
 

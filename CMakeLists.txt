@@ -40,10 +40,13 @@ add_definitions(${PCL_DEFINITIONS})
 
 add_executable(track_mono src/TrackMono/TrackMono.cpp)
 add_executable(point2d_to_spherical src/Point2DToSpherical/Point2DToSpherical.cpp)
+add_executable(3d_to_spherical src/3DToSpherical/Point3DToSpherical.cpp)
 add_executable(track_3d src/track3d/Track3d.cpp)
 
 target_link_libraries(track_mono ${catkin_LIBRARIES} ${OpenCV_Libs})
 target_link_libraries(point2d_to_spherical ${catkin_LIBRARIES})
+target_link_libraries(3d_to_spherical ${catkin_LIBRARIES})
 target_link_libraries(track_3d ${catkin_LIBRARIES} ${OpenCV_Libs})
 
 add_dependencies(point2d_to_spherical ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(3d_to_spherical ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

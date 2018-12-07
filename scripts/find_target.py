@@ -2,7 +2,7 @@
 import rospy
 import numpy as np
 from concaveteam.msg import Spherical
-from geometry_msgs.msg import Point
+from geometry_msgs.msg import PointStamped
 from sensor_msgs.point_cloud2 import read_points
 from sensor_msgs.msg import PointCloud2
 
@@ -14,12 +14,12 @@ class FindTarget:
         self.pointsSub = rospy.Subscriber(
             '/stereo/points2', PointCloud2, self.pointsCb)
         self.pointPub = rospy.Publisher(
-            '/target3d', Point, queue_size=1)
+            '/target3d', PointStamped, queue_size=1)
         self.u = np.array([])
 
     def targetCb(self, data):
-        azim = data.azimuth
-        polar = data.polar
+        azim = data.azimuth * np.pi / 180
+        polar = data.polar * np.pi / 180
 
         # Compute unit vector for direction of target
         self.u = np.array(
@@ -28,27 +28,31 @@ class FindTarget:
              np.cos(polar)])
 
     def pointsCb(self, data):
-        points = np.array(list(read_points(data, skip_nans=True)))[:, :3]
         if self.u.size == 0:
             return
 
+        points = np.array(list(read_points(data, skip_nans=True)))[:, :3]
+
+        # Orient points to z up, x right, and y forward
+        swapTmp = np.copy(points[:, 2])
+        points[:, 2] = points[:, 1]
+        points[:, 1] = swapTmp
+        points[:, 2] = -points[:, 2]
+
         # Project the points onto the ray
         proj = self.u * np.dot(points, self.u)[:, np.newaxis]
-        # print(proj.shape)
 
         # Calculate the perpendicular component
         perp = points - proj
-        perp = perp / np.linalg.norm(perp, axis=1)[:, np.newaxis]
-        dists = (points * perp).sum(1)
+        dists = np.linalg.norm(perp, 1)
 
         # Publish the closest point
         closest = points[dists.argmin()]
         # For some reason y is inverted
-        closest[:, 1] = -closest[:, 1]
-        point = Point()
-        point.x, point.y, point.z = closest
+        point = PointStamped()
+        point.header.frame_id = "left_cam"
+        point.point.x, point.point.y, point.point.z = closest
         self.pointPub.publish(point)
-        print(closest)
 
 
 if __name__ == '__main__':
