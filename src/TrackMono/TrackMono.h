@@ -33,19 +33,40 @@ public:
   TrackMono();
 
 private:
-  void callback(const sensor_msgs::ImageConstPtr& msg);
+    void callback_right(const sensor_msgs::ImageConstPtr& msg);
+
+
+    void callback_left(const sensor_msgs::ImageConstPtr& msg);
 
   ros::NodeHandle nh;
   image_transport::ImageTransport it;
   cv_bridge::CvImageConstPtr cv_ptr;
 
-  image_transport::Subscriber sub;
+
+  image_transport::Subsrciber sub_left;
+  image_transport::Subsrciber sub_right;
   image_transport::Publisher pub_img;
   ros::Publisher pub;
 
+
   // The previous image
-  cv::Mat img0;
+  cv::Mat img0_right;
+  cv::Mat img0_left;
+
+  double cam_angular_width;
+  concaveteam::Spherical aim;
+  unsigned int height;
+  unsigned int width;
+  unsigned int dist1;//distance between cameras
+  double angle3;//Third angle in the traingle
+  double distance_from_left;//Distance of object from the left camera
 
   // The location of the best moving object in image coordinates.
   geometry_msgs::PointStamped pub_msg;
+  geometry_msgs::PointStamped left_saved;
+  geometry_msgs::PointStamped right_saved;
+
+
 };
+
+
