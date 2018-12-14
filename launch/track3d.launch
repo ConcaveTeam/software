@@ -1,0 +1,8 @@
+<launch>
+  <include file="$(find concaveteam)/launch/stereo.launch"/>
+  <include file="$(find concaveteam)/launch/trackmono.launch"/>
+  <node pkg="concaveteam" type="find_target.py" name="find_target"/>
+  <node pkg="concaveteam" type="3d_to_spherical" name="aim3d"/>
+
+  <!-- <node pkg="rosserial_python" type="serial_node.py" name="serial"  args="/dev/ttyACM0"/> -->
+</launch>

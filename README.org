@@ -13,6 +13,7 @@ For a docker image instead, see the next section.
 - Build the platform: =catkin_make=
 - Done.
   Now you can run one of the modes in the section below.
+  The current firmware is designed of the 3D tracking.
   
 * Alternative Install: Docker Installation
 To get the environment in docker, simply run
@@ -39,5 +40,16 @@ This publishes an annotated image with moving objects circled in =/monotrack=, t
 - Hardware :: Mount the cameras. Plug in , in order, the left camera, and then the right camera.
 - Launch the nodes :: =roslaunch concaveteam stereo.launch=
 - View disparity map :: =rosrun image_view disparity_view image:=stereo/disparity==
+
+This publishes a disparity map from our camera setup, as well as a point cloud in =/stereo/points2= which can be viewed in RVIZ.
+
+* 3D Tracking
+
+** Launch
+- Hardware :: Mount the cameras. Plug in , in order, the left camera, and then the right camera.
+- Launch the nodes :: =roslaunch concaveteam track3d.launch=
+- View disparity map :: =rosrun image_view disparity_view image:=stereo/disparity==
+- Published data :: =/aim3d=, =/track3d= which are the angle to the target and the 3D coordinates of the target respectively.
+                    =/aim3d= is for debugging, as the firmware does conversions internally.
 
 This publishes a disparity map from our camera setup, as well as a point cloud in =/stereo/points2= which can be viewed in RVIZ.
